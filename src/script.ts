@@ -1,0 +1,52 @@
+import {AxesHelper, BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, WebGLRenderer} from "three";
+
+// Canvas
+const canvas = document.querySelector('canvas.webgl') as HTMLCanvasElement;
+
+// Sizes
+const sizes = {
+	width: 800,
+	height: 600
+};
+
+// Scene
+const scene = new Scene();
+
+// Object
+const cubeGeometry = new BoxGeometry(1, 1, 1);
+const cubeMaterial = new MeshBasicMaterial({
+	color: 0xff0000
+});
+const cubeMesh = new Mesh(cubeGeometry, cubeMaterial);
+cubeMesh.position.set(-1, 0.25, 0)
+scene.add(cubeMesh);
+
+const cube2 = new Mesh(
+	new BoxGeometry(),
+	new MeshBasicMaterial({color: 0x00ff00})
+);
+cube2.position.set(1, 0, 0);
+cube2.rotation.set(Math.PI, Math.PI / 4, Math.PI / 4);
+scene.add(cube2);
+
+const cube3 = new Mesh(
+	new BoxGeometry(),
+	new MeshBasicMaterial({color: 0x0000ff})
+);
+cube3.position.set(2.5, 0.25, 0.5);
+scene.add(cube3)
+
+const axesHelper = new AxesHelper(3);
+scene.add(axesHelper)
+
+// Camera
+const camera = new PerspectiveCamera(75, sizes.width / sizes.height);
+camera.position.set(1, 1, 3)
+scene.add(camera);
+
+// Renderer
+const renderer = new WebGLRenderer({
+	canvas
+});
+renderer.setSize(sizes.width, sizes.height);
+renderer.render(scene, camera);
