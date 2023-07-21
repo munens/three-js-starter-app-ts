@@ -1,12 +1,16 @@
 import {AxesHelper, BoxGeometry, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, WebGLRenderer} from "three";
+import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+import dat from "dat.gui";
+
+const gui = new dat.GUI();
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl') as HTMLCanvasElement;
 
 // Sizes
 const sizes = {
-	width: 800,
-	height: 600
+	width: window.innerWidth,
+	height: window.innerHeight
 };
 
 // Scene
@@ -49,4 +53,23 @@ const renderer = new WebGLRenderer({
 	canvas
 });
 renderer.setSize(sizes.width, sizes.height);
-renderer.render(scene, camera);
+
+const orbitControls = new OrbitControls(camera, canvas);
+
+function animate() {
+	orbitControls.update();
+	renderer.render(scene, camera);
+
+	window.requestAnimationFrame(animate);
+}
+
+animate();
+
+gui.add(cubeMesh.position, 'y', -5, 5, 0.01)
+.name('cubeMesh.position.y');
+
+gui.add(cubeMesh.material, 'wireframe')
+.name('cubeMesh.material.wireframe');
+
+gui.add(cube3.rotation, 'y', -Math.PI, Math.PI, 0.05)
+.name('mesh.rotation.y');
